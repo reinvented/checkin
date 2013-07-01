@@ -1,0 +1,93 @@
+html,body,iframe {
+	height: 100%;
+	width: 100%;
+}
+
+section[role="region"] {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: #fff;
+}
+
+section[role="region"] > div {
+  position: absolute;
+  top: 5rem;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 5rem);
+  overflow-y: scroll;
+}
+
+#statusmessage {
+	display: none;
+}
+
+#list-view {
+	z-index: 1;
+}
+
+#foursquare-view {
+	z-index: 10;
+}
+
+#settings-view {
+	z-index: 5;
+}
+
+#waiting-view {
+	z-index: 25;
+}
+
+.move-down {
+	transform: translateY(100%);
+	transition: all 0.2s;
+}
+ 
+.move-up {
+	transform: translateY(0);
+	transition: all 0.2s;
+}
+
+#browser-wrapper  {
+	height: 100%;
+	width: 100%;
+}
+
+#browser {
+  width: 100%;
+  /* -5rem for the header */
+  height: calc(100% - 4rem);
+}
+
+#waiting-for-GPS p, #waiting-for-GPS img {
+  font-family: "MozTT", "Moz", Sans-serif;
+  font-weight: 400;
+  padding: 0 1.5rem;
+	text-align: center;
+	line-height: 1.2;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.highlighted {
+	background: #ccc;
+}
+
+.normal { 
+	background: #fff;
+}
+
+.normal-venue {
+	color: #000;
+	font-weight: normal;
+}
+
+.highlighted-venue {
+	color: #000;
+	font-weight: bold;
+}
