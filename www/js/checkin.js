@@ -35,7 +35,7 @@ if (localStorage.send_to_foursquare) {
     $('#waiting-view').addClass('move-up');
     // Fire up the GPS...
     console.log("Firing up the GPS; when we get a fix, then we'll be able to start using the app.");
-  navigator.geolocation.getCurrentPosition(successGeolocation, errorNoGeolocation, { enableHighAccuracy: true, maximumAge: 0 });
+    navigator.geolocation.getCurrentPosition(successGeolocation, errorNoGeolocation, { enableHighAccuracy: true, maximumAge: 0 });
     // Update our name from Foursquare to update the settings page.
     updateFoursquareName();
 }
