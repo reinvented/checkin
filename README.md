@@ -10,6 +10,12 @@ I wrote it for two reasons: I wanted to be able to simply and easily checkin fro
 How to Install
 --------------
 
+To install from Firefox Marketplace (version may not be up-to-date):
+
+* [https://marketplace.firefox.com/app/checkin](https://marketplace.firefox.com/app/checkin)
+
+To install from source:
+
 1. Connect your device via USB to a computer running Firefox and the [Firefox OS Simulator](https://addons.mozilla.org/en-US/firefox/addon/firefox-os-simulator/).
 2. Clone the repository to your local machine.
 3. From the [Firefox OS Simulator](https://addons.mozilla.org/en-US/firefox/addon/firefox-os-simulator/), click **Add Directory** and locate the manifest.webapp you just cloned.
