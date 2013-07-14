@@ -41,3 +41,5 @@ Screenshots
 ![image](screenshots/checkin-settings.png)
 
 ![image](screenshots/checkin-foursquare-oauth.png)
+
+![image](screenshots/checkin-waiting-gps.png)
