@@ -6,7 +6,10 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="description" content="Displays information about current mobile connection.">
 		<meta name="author" content="Peter Rukavina">
+		<link rel="resource" type="application/l10n" href="locales/locales.ini" />
+		<script type="application/javascript" src="js/l10n.js"></script>
 		<link href="style/headers.css" rel="stylesheet"><!-- From Gaia CSS, styling for headers. -->
+		<script type="text/javascript" src="js/l10n.js"></script>
 		<link href="style/lists.css" rel="stylesheet"><!-- From Gaia CSS, styling for lists. -->
 		<link href="style/buttons.css" rel="stylesheet"><!-- From Gaia CSS, styling for buttons. -->
 		<link href="style/status.css" rel="stylesheet"><!-- From Gaia CSS, styling for status messages. -->
@@ -25,7 +28,7 @@
 				<!-- Put a "Settings" button flush-right in the header. -->
 			  <menu type="toolbar">
 					<button id="refresh-btn"><span class="icon icon-refresh">Refresh</span></button>
-					<button id="settings-btn"><span class="icon icon-config">Settings</span></button>
+					<button id="settings-btn"><span class="icon icon-config" data-l10n-id="settings">Settings</span></button>
 				</menu>
 				<h1>Checkin</h1>
 			</header>
@@ -45,7 +48,7 @@
 				<button id="close-settings-btn"><span class="icon icon-back">close</span></button>
 				<!-- Save button appears flush-right in the header. -->
 				<!-- App title appears in the header. -->
-				<h1>Settings</h1>
+				<h1 data-l10n-id="settings">Settings</h1>
 			</header>
 			<article>
 			<form>
@@ -53,16 +56,16 @@
 					<ul>
 						<li>
 							<aside><label><input type="checkbox" id="send_to_foursquare"><span></span></label></aside>
-							<p>Enable Foursquare?</p>
-							<p id="foursquare_name">Currently disabled.</p>
+							<p data-l10n-id="enable-foursquare">Enable Foursquare?</p>
+							<p id="foursquare_name" data-l10n-id="currently-disabled">Currently disabled.</p>
 						</li>
 					</ul>
-					<p id="explanation">To enable Foursquare checkin, check the box above and authenticate yourself to Foursquare.</p>
+					<p id="explanation" data-l10n-id="foursquare-instructions">To enable Foursquare checkin, check the box above and authenticate yourself to Foursquare.</p>
 					<ul>
 						<li>
 							<aside><label><input type="checkbox" id="confirm_checkins"><span></span></label></aside>
-							<p>Confirm checkins?</p>
-							<p>Require confirmation every time?</p>
+							<p data-l10n-id="confirm-checkins">Confirm checkins?</p>
+							<p data-l10n-id="confirm-explanation">Require confirmation every time?</p>
 						</li>
 					</ul>
 				</div>
@@ -87,10 +90,10 @@
 		<section role="region" id="waiting-view" class="move-down">
 			<header>
 				<!-- App title appears in the header. -->
-				<h1>Waiting for GPS</h1>
+				<h1 data-l10n-id="gps-waiting">Waiting for GPS</h1>
 			</header>
 			<article id="waiting-for-GPS">
-				<p>Waiting for the GPS<br>to return your<br>current location.</p>
+				<p data-l10n-id="gps-explanation">Waiting for the GPS to return your current location.</p>
 				<p><img src="style/icons/spinner.gif"></p>
 			</article>
 		</section>			

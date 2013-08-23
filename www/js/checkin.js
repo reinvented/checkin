@@ -77,7 +77,7 @@ $("#main li").live('click', function(e) {
         }
         else if ((!highlightedVenue) && (localStorage.confirm_checkins)) {
             console.log("Tapped on a Foursquare venue. Confirmation needed.");
-            if (window.confirm("Checkin to " + $(this).attr('name') + '?')) {
+            if (window.confirm(navigator.mozL10n.get("checkin-confirmation") + " " + $(this).attr('name') + '?')) {
                 // Save the venue we just highlighted so we can unhighlight it later.
                 highlightedVenue = this;
                 // Highlight this venue by changing the background colour and class of the text.
@@ -353,7 +353,7 @@ function checkintoFoursquare(vid) {
 */  
 function showStatusMessage() {
     console.log("Displaying status message 'Checked in.'");
-    $('#statusmessagetext').html("Checked in.");
+    $('#statusmessagetext').html(navigator.mozL10n.get("checkedin"));
     $('#statusmessage').show('slow');
     $(highlightedVenue).removeClass('highlighted').addClass('normal');
     $(highlightedVenue).children("p").removeClass('highlighted-venue').addClass('normal-venue');
