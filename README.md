@@ -40,6 +40,7 @@ Sources and Credits
 * [Zepto.js](http://zeptojs.com/)
 * [Olle Jonsson](http://ollehost.dk/blog/) provided Swedish and Danish localizations.
 * [Peter Bihr](http://www.thewavingcat.com/) provided German localization.
+* [Pedro Custódio](http://www.pedrocustodio.com/) provided Portuguese localization.
 
 Screenshots
 -----------
