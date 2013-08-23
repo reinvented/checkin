@@ -34,10 +34,12 @@ To Do
 * Handle failure of Foursquare authorization or updates more elegantly (or, indeed, at all).
 * Allow creating new venues (that's about the only new feature I want to add).
 
-Sources
--------
+Sources and Credits
+-------------------
 
 * [Zepto.js](http://zeptojs.com/)
+* [Olle Jonsson](http://ollehost.dk/blog/) provided Swedish and Danish localizations.
+* [Peter Bihr](http://www.thewavingcat.com/) provided German localization.
 
 Screenshots
 -----------
