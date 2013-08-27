@@ -41,6 +41,7 @@ Sources and Credits
 * [Olle Jonsson](http://ollehost.dk/blog/) provided Swedish and Danish localizations.
 * [Peter Bihr](http://www.thewavingcat.com/) provided German localization.
 * [Pedro Custódio](http://www.pedrocustodio.com/) provided Portuguese localization.
+* [Mikko Pervilä](http://www.cs.helsinki.fi/u/pervila/) provided Finnish localization.
 
 Screenshots
 -----------

@@ -7,9 +7,7 @@
 		<meta name="description" content="Displays information about current mobile connection.">
 		<meta name="author" content="Peter Rukavina">
 		<link rel="resource" type="application/l10n" href="locales/locales.ini" />
-		<script type="application/javascript" src="js/l10n.js"></script>
 		<link href="style/headers.css" rel="stylesheet"><!-- From Gaia CSS, styling for headers. -->
-		<script type="text/javascript" src="js/l10n.js"></script>
 		<link href="style/lists.css" rel="stylesheet"><!-- From Gaia CSS, styling for lists. -->
 		<link href="style/buttons.css" rel="stylesheet"><!-- From Gaia CSS, styling for buttons. -->
 		<link href="style/status.css" rel="stylesheet"><!-- From Gaia CSS, styling for status messages. -->
@@ -51,25 +49,28 @@
 				<h1 data-l10n-id="settings">Settings</h1>
 			</header>
 			<article>
-			<form>
-				<div data-type="list">
-					<ul>
-						<li>
-							<aside><label><input type="checkbox" id="send_to_foursquare"><span></span></label></aside>
-							<p data-l10n-id="enable-foursquare">Enable Foursquare?</p>
-							<p id="foursquare_name" data-l10n-id="currently-disabled">Currently disabled.</p>
-						</li>
-					</ul>
-					<p id="explanation" data-l10n-id="foursquare-instructions">To enable Foursquare checkin, check the box above and authenticate yourself to Foursquare.</p>
-					<ul>
-						<li>
-							<aside><label><input type="checkbox" id="confirm_checkins"><span></span></label></aside>
-							<p data-l10n-id="confirm-checkins">Confirm checkins?</p>
-							<p data-l10n-id="confirm-explanation">Require confirmation every time?</p>
-						</li>
-					</ul>
+				<form>
+					<div data-type="list">
+						<ul>
+							<li>
+								<aside><label><input type="checkbox" id="send_to_foursquare"><span></span></label></aside>
+								<p data-l10n-id="enable-foursquare">Enable Foursquare&reg;?</p>
+								<p id="foursquare_name" data-l10n-id="currently-disabled">Currently disabled.</p>
+							</li>
+						</ul>
+						<p id="explanation" data-l10n-id="foursquare-instructions">To enable Foursquare&reg; checkin, check the box above and authenticate yourself to Foursquare&reg;.</p>
+						<ul>
+							<li>
+								<aside><label><input type="checkbox" id="confirm_checkins"><span></span></label></aside>
+								<p data-l10n-id="confirm-checkins">Confirm checkins?</p>
+								<p data-l10n-id="confirm-explanation">Require confirmation every time?</p>
+							</li>
+						</ul>
+					</div>
+				</form>
+				<div id="foursquare-logo-wrapper">
+					<img src="style/icons/poweredByFoursquare_gray.png" id="foursquare-logo">
 				</div>
-			</form>
 			</article>
 		</section>	
 
@@ -99,6 +100,7 @@
 		</section>			
 		
 		<script src="js/zepto.min.js"></script><!-- A lightweight jQuery replacement. From http://zeptojs.com/ -->
+		<script src="js/l10n.js"></script><!-- Localization. Taken straight out of Gaia -->
 		<script src="js/checkin.js"></script><!-- Local JavaScript. The guts of the app are in here. -->
 	</body>
 </html>

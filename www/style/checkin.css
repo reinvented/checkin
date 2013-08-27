@@ -91,3 +91,13 @@ section[role="region"] > div {
 	color: #000;
 	font-weight: bold;
 }
+
+#foursquare-logo-wrapper {
+	text-align: center;
+}
+
+#foursquare-logo {
+	width: 70%;
+}
+
+

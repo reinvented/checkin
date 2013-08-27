@@ -24,6 +24,12 @@ var highlightedVenue = false; // Stores the venue <li> we're checking into so we
 |*|
 \*/
 
+$(document).ready(function() {
+	console.log("Device language setting is " + navigator.mozL10n.language.code);
+	console.log("Setting language direction to " + navigator.mozL10n.language.direction);
+	$("html").attr("dir",navigator.mozL10n.language.direction);
+});
+
 if (localStorage.send_to_foursquare) {
     console.log("Checkin app starting up with Foursquare enabled.");
     // We've already set up Foursquare, so hide the explanation on the settings screen.
