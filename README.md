@@ -1,3 +1,5 @@
+![image](www/style/icons/checkin-icon-128.png)
+
 Checkin
 =======
 
@@ -24,7 +26,9 @@ To install from source:
 How to Configure
 ----------------
 
-On first run the "Settings" screen will open. Check the "Enable Foursquare" checkbox and (as long as you're online somehow) you'll be prompted to authenticate to Foursquare and give the app permission to communicate to Foursquare on your behalf.
+On first run the "Settings" screen will open. Check the "Enable Foursquare" checkbox and (as long as you're online somehow) you'll be prompted to authenticate to Foursquare and give the app permission to communicate to Foursquare on your behalf. 
+
+You also have the option of having the app asking you for confirmation of each checkin (which prevents accidental checkins if your device is extra-sensitive to touch).
 
 When you return to the main screen, the app will fire up your GPS, and wait to establish your position; once it's done this, you'll be shown a list of nearby Foursquare venues; to checkin, just tap a venue. *That's it*.
 
