@@ -1,67 +1,11 @@
-html,body,iframe {
-	height: 100%;
-	width: 100%;
+html,body,iframe,#browser {
+        height: 100%;
+        width: 100%;
 }
 
-section[role="region"] {
-	position: absolute;
-	top: 0;
-	left: 0;
-	right: 0;
-	bottom: 0;
-	background: #fff;
-}
-
-section[role="region"] > div {
-  position: absolute;
-  top: 5rem;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: calc(100% - 5rem);
-  overflow-y: scroll;
-}
-
-#statusmessage {
-	display: none;
-}
-
-#list-view {
-	z-index: 1;
-}
-
-#foursquare-view {
-	z-index: 10;
-}
-
-#settings-view {
-	z-index: 5;
-}
-
-#waiting-view {
-	z-index: 25;
-}
-
-.move-down {
-	transform: translateY(100%);
-	transition: all 0.2s;
-}
- 
-.move-up {
-	transform: translateY(0);
-	transition: all 0.2s;
-}
-
-#browser-wrapper  {
-	height: 100%;
-	width: 100%;
-}
-
-#browser {
-  width: 100%;
-  /* -5rem for the header */
-  height: calc(100% - 4rem);
+.ui-li.ui-first-child {
+	border-top-right-radius: 0 !important;
+	border-top-left-radius: 0 !important;
 }
 
 #waiting-for-GPS p, #waiting-for-GPS img {
@@ -75,7 +19,7 @@ section[role="region"] > div {
 }
 
 .highlighted {
-	background: #ccc;
+	background: #ff0;
 }
 
 .normal { 
@@ -85,6 +29,11 @@ section[role="region"] > div {
 .normal-venue {
 	color: #000;
 	font-weight: normal;
+	
+}
+.normal-venue p {
+	font-size: 120%;
+	margin: 0;
 }
 
 .highlighted-venue {
@@ -100,4 +49,11 @@ section[role="region"] > div {
 	width: 70%;
 }
 
+#status {
+	text-align: center;
+	padding: 8px;
+	background: #666;
+	color: #fff;
+	margin: 0;
+}
 

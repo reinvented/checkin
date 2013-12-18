@@ -12,25 +12,28 @@ I wrote it for two reasons: I wanted to be able to simply and easily checkin fro
 How to Install
 --------------
 
-To install from Firefox Marketplace (version may not be up-to-date):
+To install from Firefox Marketplace:
 
 * [https://marketplace.firefox.com/app/checkin](https://marketplace.firefox.com/app/checkin)
 
-To install from source:
+The Marketplace version is out of date because Firefox OS only allows "certified" apps permission to obtain the data necessary to establish location from Mozilla Location Services, and regular everyday people like me can't submit certified apps to the Marketplace.
 
-1. Connect your device via USB to a computer running Firefox and the [Firefox OS Simulator](https://addons.mozilla.org/en-US/firefox/addon/firefox-os-simulator/).
+To install from source, which doesn't have these limitations:
+
+1. Connect your device via USB to a computer running Firefox and the [Firefox OS Simulator](https://addons.mozilla.org/en-US/firefox/addon/firefox-os-simulator/) or [Firefox App Manager](https://developer.mozilla.org/en-US/Firefox_OS/Using_the_App_Manager)
 2. Clone the repository to your local machine.
-3. From the [Firefox OS Simulator](https://addons.mozilla.org/en-US/firefox/addon/firefox-os-simulator/), click **Add Directory** and locate the manifest.webapp you just cloned.
-4. Push the app to your device ([more details here](https://marketplace.firefox.com/developers/docs/firefox_os_simulator)).
+3. From the Firefox OS Simulator or App Manager, push the app to your device.
 
 How to Configure
 ----------------
 
-On first run the "Settings" screen will open. Check the "Enable Foursquare" checkbox and (as long as you're online somehow) you'll be prompted to authenticate to Foursquare and give the app permission to communicate to Foursquare on your behalf. 
+On first run the "Settings" screen will open. Switch "Enable Foursquare" to "On" and (as long as you're online somehow) you'll be prompted to authenticate to Foursquare and give the app permission to communicate to Foursquare on your behalf. 
 
 You also have the option of having the app asking you for confirmation of each checkin (which prevents accidental checkins if your device is extra-sensitive to touch).
 
-When you return to the main screen, the app will fire up your GPS, and wait to establish your position; once it's done this, you'll be shown a list of nearby Foursquare venues; to checkin, just tap a venue. *That's it*.
+Under "How to Find Device Location?" select either "Use GPS" (which is more accurate, but as the GPS can take time to establish a lock, can be slower) or "Use Mozilla Location Services" (which is less accurate, may have poor coverage for your area, but can be much faster than GPS).
+
+When you return to the main screen, the app will establish your location and you'll be shown a list of nearby Foursquare venues; to checkin, just tap a venue, and optionally confirm your checkin. *That's it*.
 
 To Do
 -----
@@ -41,7 +44,8 @@ To Do
 Sources and Credits
 -------------------
 
-* [Zepto.js](http://zeptojs.com/)
+* [jQuery](http://jquery.com/)
+* [jQuery Mobile](http://jquerymobile.com/)
 * [Olle Jonsson](http://ollehost.dk/blog/) provided Swedish and Danish localizations.
 * [Peter Bihr](http://www.thewavingcat.com/) provided German localization.
 * [Pedro Custódio](http://www.pedrocustodio.com/) provided Portuguese localization.
@@ -53,7 +57,3 @@ Screenshots
 ![image](screenshots/checkin-mainscreen.png)
 
 ![image](screenshots/checkin-settings.png)
-
-![image](screenshots/checkin-foursquare-oauth.png)
-
-![image](screenshots/checkin-waiting-gps.png)

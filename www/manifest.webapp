@@ -1,23 +1,34 @@
 {
-    "version": "0.5",
-    "name": "Checkin",
-    "description": "Enables simple checkin to nearby places on Foursquare. Nothing more.",
-    "launch_path": "/index.html",
-    "icons": {
-        "16": "/style/icons/checkin-icon-16.png",
-        "60": "/style/icons/checkin-icon-60.png",
-        "128": "/style/icons/checkin-icon-128.png"
+  "version": "0.6",
+  "name": "Checkin",
+  "description": "Enables simple checkin to nearby places on Foursquare. Nothing more.",
+  "launch_path": "/index.html",
+  "icons": {
+    "16": "/style/icons/checkin-icon-16.png",
+    "60": "/style/icons/checkin-icon-60.png",
+    "128": "/style/icons/checkin-icon-128.png"
+  },
+  "developer": {
+    "name": "Peter Rukavina",
+    "url": "http://ruk.ca/app/checkin"
+  },
+  "installs_allowed_from": [
+    "*"
+  ],
+  "default_locale": "en",
+  "type": "certified",
+  "permissions": {
+    "systemXHR": {
+      "description": "Used to send data to Foursquare API."
     },
-    "developer": {
-        "name": "Peter Rukavina",
-        "url": "http://ruk.ca/app/checkin"
+    "geolocation": {
+      "description": "Obtain geolocation from the device GPS."
     },
-    "installs_allowed_from": ["*"],
-    "default_locale": "en",
-    "type": "privileged",
-    "permissions": {
-			"systemXHR": { "description":"Used to send data to Foursquare API." },
-			"geolocation": { "description":"Obtain geolocation from the device GPS." },
-			"browser": { "description":"Enables authentication to Foursquare via OAuth." }
+    "browser": {
+      "description": "Enables authentication to Foursquare via OAuth."
+    },
+    "mobileconnection": {
+      "description": "Obtain information from the device about cell ID."
     }
+  }
 }
