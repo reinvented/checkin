@@ -37,9 +37,14 @@ $(document).ready(function() {
 \*/
 
 function handleVisibilityChange() {
-  if (!document.hidden) {
-    getLocationFromCell();
-  }
+	if (!document.hidden) {
+		console.log("The app woke up! Refreshing.");
+		$('#venue_list').fadeOut();
+		$('#venue_list').html('');
+		if (localStorage.send_to_foursquare) {
+			getLocationFromCell();
+		}
+	}
 }
 
 document.addEventListener("visibilitychange", handleVisibilityChange, false);
@@ -296,7 +301,7 @@ function getFoursquareAccessToken() {
 */
 function updateFoursquareVenues() {
 
-	updateStatus("Checking Foursquare...");
+	updateStatus("Looking for venues near<br>" + currentPosition);
 
     console.log("Updating the list of Foursquare venues.");
 
@@ -312,6 +317,7 @@ function updateFoursquareVenues() {
     }
 
     function transferFailed(evt) {
+	    updateStatus("Foursquare error.<br>No venues found :-(");
         console.log("An error occurred transferring the data: " + evt);
     }
 
@@ -321,7 +327,10 @@ function updateFoursquareVenues() {
             console.log(data);
             $.each(data.response.venues, function(i,venues){
             	hideStatus();
-                content = '<li class="normal-venue" id="' + venues.id + '" name="' + venues.name + '"><p>' + venues.name + '</p><p>' + (venues.location.address || '') + '</p></li>';
+                content = '<li class="normal-venue" id="' + venues.id + '" name="' + venues.name + '">'
+                content = content + '<img class="venue_icon" src="' + venues.categories[0].icon.prefix + 'bg_88' + venues.categories[0].icon.suffix + '">';
+                content = content + '<p>';
+                content = content + '<b>' + venues.name + '</b><br><span class="venue_address">' + (venues.location.address || '') + '</span></p></li>';
                 $(content).appendTo("#venue_list"); 
                 $('#venue_list').listview('refresh');  
                 $('#venue_list').fadeIn();  
@@ -423,6 +432,8 @@ function getLocationFromCell() {
 		]
 	};
 
+	updateStatus("Getting Location from Cell<br>" + conn.voice.network.mcc + "/" + conn.voice.network.mnc + "/" + conn.voice.cell.gsmCellId);
+
 	var itemsPost = JSON.stringify(item);
 
 	console.log("Payload: " + itemsPost);
@@ -443,6 +454,7 @@ function getLocationFromCell() {
 		if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 204)) {
 			var data = JSON.parse(xhr.response);
 			currentPosition = data.lat + ","  + data.lon;
+			updateStatus("Found location of<br>" + currentPosition);
 	    	updateFoursquareVenues();
 			console.log(data);
 		}
