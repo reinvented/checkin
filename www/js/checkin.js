@@ -42,7 +42,7 @@ function handleVisibilityChange() {
 		$('#venue_list').fadeOut();
 		$('#venue_list').html('');
 		if (localStorage.send_to_foursquare) {
-			getLocationFromCell();
+			getLocationFromMLS();
 		}
 	}
 }
@@ -56,7 +56,7 @@ document.addEventListener("visibilitychange", handleVisibilityChange, false);
 |*|
 \*/
 
-if (localStorage.send_to_foursquare) {
+if ((localStorage.send_to_foursquare) && (typeof localStorage.foursquare_access_token != 'undefined'))  {
     console.log("Starting up: Foursquare enabled.");
     // We've already set up Foursquare, so hide the explanation on the settings screen.
     $("#explanation").hide();
@@ -64,8 +64,28 @@ if (localStorage.send_to_foursquare) {
 
 	$('#send_to_foursquare').slider();
     $('#send_to_foursquare').val("on").slider("refresh");
+    
+    getMyLocation();
+		
+}
+else {
+	window.localStorage.setItem("foursquare_access_token", '');
+	window.localStorage.setItem("send_to_foursquare", false);
+	$('#send_to_foursquare').slider();
+    $('#send_to_foursquare').val("off").slider("refresh");
+    console.log("Starting up WITHOUT Foursquare.");
+    console.log("Opening settings.");
+    // Show the setting screen.
+    $.mobile.changePage( "#settings-view");
+}
 
-    // Show the "waiting for GPS" screen, because getting a GPS lock might take awhile.
+/*\
+|*|
+|*|  Get my location (somehow) and proceed...
+|*|
+\*/
+
+function getMyLocation() {
     
     if (localStorage.get_location_by == "gps") {
 		// Fire up the GPS...
@@ -73,17 +93,13 @@ if (localStorage.send_to_foursquare) {
 		updateStatus("Waiting for GPS...");
 		navigator.geolocation.getCurrentPosition(successGeolocation, errorNoGeolocation, { enableHighAccuracy: false, maximumAge: 600000 });
 	}
-	else {
-		getLocationFromCell();
+    else if (localStorage.get_location_by == "mls") {
+		getLocationFromMLS();
 	}
-		
-}
-else {
-    console.log("Starting up WITHOUT Foursquare.");
-    console.log("Opening settings.");
-    // Show the setting screen.
-    $('#settings-view').removeClass('move-down');
-    $('#settings-view').addClass('move-up');
+    else if (localStorage.get_location_by == "oci") {
+		getLocationFromOCI();
+	}
+
 }
 
 /*\
@@ -101,14 +117,22 @@ if (localStorage.confirm_checkins) {
 if (localStorage.get_location_by) {
 		if (localStorage.get_location_by == "gps") {
 	    $("#get_location_by_gps").attr('checked',true);
+	    $("#opencellidwrapper").hide();
 	  }
 	  else if (localStorage.get_location_by == "mls") {
 	    $("#get_location_by_mls").attr('checked',true);
+	    $("#opencellidwrapper").hide();
 	  }
+	  else if (localStorage.get_location_by == "oci") {
+	    $("#get_location_by_oci").attr('checked',true);
+	    $("#opencellid").val(localStorage.opencellidkey)
+	    $("#opencellidwrapper").show();
+	  }	  
 }
 else {
 	$("#get_location_by_gps").attr('checked',true);
 	 window.localStorage.setItem("get_location_by", 'gps');
+    $("#opencellidwrapper").hide();
 }
 
 /*\
@@ -160,8 +184,26 @@ $('#refresh-btn').bind('click', function() {
     $('#venue_list').fadeOut();
     $('#venue_list').html('');
     if (localStorage.send_to_foursquare) {
-		getLocationFromCell();
+		getMyLocation();
     }
+});
+
+/**
+* Bind to a change of location method so that we can show or hide API key field.
+*/
+$('input:radio[name=get_location_by]').change(function() {
+    console.log("Changed get_location_by.");
+	var get_location_by = $('input:radio[name=get_location_by]:checked').val();
+	console.log(get_location_by);
+	if (get_location_by == 'oci') {
+		console.log("Showing API key field");
+		$("#opencellidwrapper").show();
+	}
+	else {
+		console.log("Hiding API key field");
+		$("#opencellidwrapper").hide();
+	}
+
 });
 
 /**
@@ -192,7 +234,7 @@ $('#send_to_foursquare').bind('change', function() {
 });
 
 /**
-* Bind to a tap on a Close button on settings page.
+* Bind to a tap on a Save button on settings page.
 * Moves back to the main app screen.
 */
 $('#save-settings-btn').bind('click', function () {
@@ -217,6 +259,15 @@ $('#save-settings-btn').bind('click', function () {
 			navigator.geolocation.clearWatch(positionInterval);
 		}
 	}
+	else if (get_location_by == 'oci') {
+		window.localStorage.setItem("get_location_by", "oci");	
+		window.localStorage.setItem("opencellidkey", $("#opencellid").val());	
+	  // If we currently had a watchPosition setup, then clear it.
+		console.log("Turning off the GPS.");
+		if (positionInterval) {
+			navigator.geolocation.clearWatch(positionInterval);
+		}
+	}	
 	else {
 		window.localStorage.setItem("get_location_by", "gps");	
 		console.log("Firing up the GPS.");
@@ -224,6 +275,12 @@ $('#save-settings-btn').bind('click', function () {
 	}
     
 	$.mobile.changePage( "#list-view");
+	
+    if (localStorage.send_to_foursquare) {
+		$('#venue_list').fadeOut();
+		$('#venue_list').html('');
+		getMyLocation();
+    }
 });
 
 
@@ -258,7 +315,7 @@ function getFoursquareAccessToken() {
     // Foursquare.com simply to avoid confusion for others reading this
     // code who, if they saw a URI for a different server would think,
     // as I have, "why are they sending me to XXX.com"!?
-      redirect_uri = 'https://foursquare.com/mobile';
+    redirect_uri = 'https://foursquare.com/mobile';
 
     //-----------------------------------------------------------------------
     // This is the URL we're going to hit to get an "authorization token".
@@ -275,6 +332,7 @@ function getFoursquareAccessToken() {
 
     // Set the 'src' attribute of the embedded browser to the URL
     // we just built, which displays the Foursquare authorization page.
+	console.log(auth_url);
     $('#browser').attr('src', auth_url);
 
     // Bind to the special 'mozbrowserlocationchange' event that fires when
@@ -284,8 +342,11 @@ function getFoursquareAccessToken() {
     // the Foursquare API.
     document.getElementById('browser').addEventListener('mozbrowserlocationchange', function(e) {
       if (e.detail && (e.detail.indexOf(redirect_uri) === 0)) {
+      	console.log(e.detail);
         var result = parseTokens(e.detail);
+        console.log(result);
         var tokens = JSON.stringify(result);
+        console.log(tokens);
 		$.mobile.changePage( "#settings-view");
 		window.localStorage.setItem("foursquare_access_token", result['#access_token']);
 		window.localStorage.setItem("send_to_foursquare", true);
@@ -311,6 +372,8 @@ function updateFoursquareVenues() {
         xhr.addEventListener("error", transferFailed, false);
 
         var geturl = "https://api.foursquare.com/v2/venues/search?oauth_token=" + localStorage.foursquare_access_token + "&ll=" + currentPosition + "&intent=checkin&v=20130629";
+
+		console.log(geturl);
 
         xhr.open('GET', geturl, true);
         xhr.send();
@@ -392,7 +455,7 @@ function showStatusMessage() {
 */     
 function parseTokens(url) {
     var url = url.slice(url.lastIndexOf('?') + 1);
-    url = url.replace('continue=%2Fmobile%2F','');
+    url = url.replace('continue=%2Fmobile','');
     var result = {};
 
     url.split('&').forEach(function(parts) {
@@ -411,69 +474,121 @@ function parseTokens(url) {
 /**
 * Get current location from Mozilla Location Services.
 */
-function getLocationFromCell() {
+function getLocationFromMLS() {
 
-	updateStatus("Getting Location from Cell");
+	updateStatus("Getting Location from<br>Mozilla Location Services");
 
 	var conn = window.navigator.mozMobileConnection;
-	console.log(conn);
-
-	var item = {
-		radio: "gsm",
-		cell: [
-			{
-				radio: "gsm", // hard-coding this because "conn.voice.type" returns 'hspa', which is rejected by Mozilla
-				mcc: conn.voice.network.mcc,
-				mnc: conn.voice.network.mnc,
-				lac: conn.voice.cell.gsmLocationAreaCode,
-				cid: conn.voice.cell.gsmCellId,
-				signal: conn.voice.signalStrength
-			}
-		]
-	};
-
-	updateStatus("Getting Location from Cell<br>" + conn.voice.network.mcc + "/" + conn.voice.network.mnc + "/" + conn.voice.cell.gsmCellId);
-
-	var itemsPost = JSON.stringify(item);
-
-	console.log("Payload: " + itemsPost);
-
-	var url = "https://location.services.mozilla.com/v1/search";
-				
-	var extraheaders = [
-			[ 'X-Nickname', localStorage.mozilla_nickname ],
-			[ 'Content-Type', 'application/json' ] 
-	];
-
-	console.log("Fetching location from Mozilla.");
-		
-	// Set up an XMLHttpRequest
-	var xhr = new XMLHttpRequest({mozSystem: true, responseType: 'json'});
-
-	xhr.onreadystatechange = function () {
-		if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 204)) {
-			var data = JSON.parse(xhr.response);
-			currentPosition = data.lat + ","  + data.lon;
-			updateStatus("Found location of<br>" + currentPosition);
-	    	updateFoursquareVenues();
-			console.log(data);
-		}
-		else if (xhr.readyState == 4 && xhr.status == 400) {
-			console.log("Error sending to " + url);
-			console.log("statusText=" + xhr.statusText);
-			console.log("responseText=" + xhr.responseText);
-		}
-	}
-
-	xhr.open('POST', url, true);
-	if (extraheaders) {
-		extraheaders.forEach(function(entry) {
-			xhr.setRequestHeader(entry[0],entry[1]);
-		});
-	}	
 	
-	xhr.send(itemsPost);
+	if (typeof conn != 'undefined') {
+		console.log(conn);
 
+		var item = {
+			radio: "gsm",
+			cell: [
+				{
+					radio: "gsm", // hard-coding this because "conn.voice.type" returns 'hspa', which is rejected by Mozilla
+					mcc: conn.voice.network.mcc,
+					mnc: conn.voice.network.mnc,
+					lac: conn.voice.cell.gsmLocationAreaCode,
+					cid: conn.voice.cell.gsmCellId,
+					signal: conn.voice.signalStrength
+				}
+			]
+		};
+
+		updateStatus("Getting Location from Cell<br>" + conn.voice.network.mcc + "/" + conn.voice.network.mnc + "/" + conn.voice.cell.gsmCellId);
+
+		var itemsPost = JSON.stringify(item);
+
+		console.log("Payload: " + itemsPost);
+
+		var url = "https://location.services.mozilla.com/v1/search";
+				
+		var extraheaders = [
+				[ 'X-Nickname', localStorage.mozilla_nickname ],
+				[ 'Content-Type', 'application/json' ] 
+		];
+
+		console.log("Fetching location from Mozilla.");
+		
+		// Set up an XMLHttpRequest
+		var xhr = new XMLHttpRequest({mozSystem: true, responseType: 'json'});
+
+		xhr.onreadystatechange = function () {
+			if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 204)) {
+				var data = JSON.parse(xhr.response);
+				if (typeof data.lat != 'undefined') {
+					currentPosition = data.lat + ","  + data.lon;
+					updateStatus("Found location of<br>" + currentPosition);
+					updateFoursquareVenues();
+					console.log(data);
+				}
+				else {
+					console.log("LOCATION ERROR");
+					console.log(data);
+					updateStatus("Could not get location from<br>" + conn.voice.network.mcc + "/" + conn.voice.network.mnc + "/" + conn.voice.cell.gsmCellId,'#f66');
+				}
+			}
+			else if (xhr.readyState == 4 && xhr.status == 400) {
+				console.log("Error sending to " + url);
+				console.log("statusText=" + xhr.statusText);
+				console.log("responseText=" + xhr.responseText);
+			}
+		}
+
+		xhr.open('POST', url, true);
+		if (extraheaders) {
+			extraheaders.forEach(function(entry) {
+				xhr.setRequestHeader(entry[0],entry[1]);
+			});
+		}	
+	
+		xhr.send(itemsPost);
+	}
+}
+
+/**
+* Get current location from OpenCellID.org
+*/
+function getLocationFromOCI() {
+
+	updateStatus("Getting Location from<br>OpenCellID.org");
+
+	var conn = window.navigator.mozMobileConnection;
+	
+	if (typeof conn != 'undefined') {
+		console.log(conn);
+
+		updateStatus("Getting Location from Cell<br>" + conn.voice.network.mcc + "/" + conn.voice.network.mnc + "/" + conn.voice.cell.gsmCellId);
+
+		var url = "http://www.opencellid.org/cell/get?key=" + localStorage.opencellidkey + "&cellid=" + conn.voice.cell.gsmCellId + "&lac=" + conn.voice.cell.gsmLocationAreaCode + "&mcc=" + conn.voice.network.mcc + "&mnc=" + conn.voice.network.mnc;
+
+		console.log("Fetching location from OpenCellID.org");
+		
+		// Set up an XMLHttpRequest
+		var xhr = new XMLHttpRequest({mozSystem: true, responseType: 'json'});
+
+		xhr.onreadystatechange = function () {
+			if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 204)) {
+				console.log(xhr.response);
+				var $xml = $(xhr.response);
+				currentPosition = $xml.find('cell').attr('lat') + ","  + $xml.find('cell').attr('lon');
+				updateStatus("Found location of<br>" + currentPosition);
+				updateFoursquareVenues();
+				console.log(xhr.response);
+			}
+			else if (xhr.readyState == 4 && xhr.status == 400) {
+				console.log("Error sending to " + url);
+				console.log("statusText=" + xhr.statusText);
+				console.log("responseText=" + xhr.responseText);
+			}
+		}
+
+		xhr.open('GET', url, true);
+		
+		xhr.send();
+	}
 }
 
 /**
@@ -541,7 +656,13 @@ function noPositionFound() {
     console.log("An error occurred getting updated GPS position.");
 }
 
-function updateStatus(message) {
+function updateStatus(message,colour) {
+	if (typeof colour == 'undefined') {
+		$("#status").css("background","#666");
+	}
+	else {
+		$("#status").css("background",colour);
+	}
 	$("#status").show();
 	$("#status").html("<p>" + message + "</p>");
 }
