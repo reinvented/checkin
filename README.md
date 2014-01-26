@@ -31,7 +31,11 @@ On first run the "Settings" screen will open. Switch "Enable Foursquare" to "On"
 
 You also have the option of having the app asking you for confirmation of each checkin (which prevents accidental checkins if your device is extra-sensitive to touch).
 
-Under "How to Find Device Location?" select either "Use GPS" (which is more accurate, but as the GPS can take time to establish a lock, can be slower) or "Use Mozilla Location Services" (which is less accurate, may have poor coverage for your area, but can be much faster than GPS).
+Under "How to Find Device Location?" select either:
+
+* "Use GPS" (which is more accurate, but as the GPS can take time to establish a lock, can be slower)
+* "Use Mozilla Location Services" (which is less accurate, may have poor coverage for your area, but can be much faster than GPS; no signup or key required).
+* "Use OpenCellID.org" (which is less accurate, may have poor coverage for your area -- but likely better coverage than Mozilla Location Services, for now, but can be much faster than GPS; you need a free [OpenCellID.org API key](http://wiki.opencellid.org/wiki/Main_Page) for this service.).
 
 When you return to the main screen, the app will establish your location and you'll be shown a list of nearby Foursquare venues; to checkin, just tap a venue, and optionally confirm your checkin. *That's it*.
 
@@ -39,7 +43,8 @@ To Do
 -----
 
 * Handle failure of Foursquare authorization or updates more elegantly (or, indeed, at all).
-* Allow creating new venues (that's about the only new feature I want to add).
+* Handle failure of OpenCellID.org authorization elegantly
+* * Allow creating new venues (that's about the only new feature I want to add).
 
 Sources and Credits
 -------------------
