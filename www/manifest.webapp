@@ -1,5 +1,5 @@
 {
-  "version": "0.6",
+  "version": "0.7",
   "name": "Checkin",
   "description": "Enables simple checkin to nearby places on Foursquare. Nothing more.",
   "launch_path": "/index.html",

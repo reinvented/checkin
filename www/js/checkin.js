@@ -12,9 +12,10 @@
 |*|
 \*/
 
-var currentPosition = false; // We use this to store the human-readable geolocation returned by the GPS.
-var positionInterval = false; // We store a a "watch ID" when we set up navigator.geolocation.watchPosition so that we can reference it later.
-var highlightedVenue = false; // Stores the venue <li> we're checking into so we can "unhighlight" it later.
+var currentPosition 	= false; // We use this to store the human-readable geolocation returned by the GPS.
+var positionInterval 	= false; // We store a a "watch ID" when we set up navigator.geolocation.watchPosition so that we can reference it later.
+var highlightedVenue 	= false; // Stores the venue <li> we're checking into so we can "unhighlight" it later.
+var opencellidkey 		= atob('NzI1OWMxNjJmMjU1ZTI1ZTI4OGM2ZTk5MWZlMTE1OTI=');
 
 /*\
 |*|
@@ -42,7 +43,7 @@ function handleVisibilityChange() {
 		$('#venue_list').fadeOut();
 		$('#venue_list').html('');
 		if (localStorage.send_to_foursquare) {
-			getLocationFromMLS();
+			getMyLocation();
 		}
 	}
 }
@@ -117,22 +118,17 @@ if (localStorage.confirm_checkins) {
 if (localStorage.get_location_by) {
 		if (localStorage.get_location_by == "gps") {
 	    $("#get_location_by_gps").attr('checked',true);
-	    $("#opencellidwrapper").hide();
 	  }
 	  else if (localStorage.get_location_by == "mls") {
 	    $("#get_location_by_mls").attr('checked',true);
-	    $("#opencellidwrapper").hide();
 	  }
 	  else if (localStorage.get_location_by == "oci") {
 	    $("#get_location_by_oci").attr('checked',true);
-	    $("#opencellid").val(localStorage.opencellidkey)
-	    $("#opencellidwrapper").show();
 	  }	  
 }
 else {
 	$("#get_location_by_gps").attr('checked',true);
 	 window.localStorage.setItem("get_location_by", 'gps');
-    $("#opencellidwrapper").hide();
 }
 
 /*\
@@ -186,24 +182,6 @@ $('#refresh-btn').bind('click', function() {
     if (localStorage.send_to_foursquare) {
 		getMyLocation();
     }
-});
-
-/**
-* Bind to a change of location method so that we can show or hide API key field.
-*/
-$('input:radio[name=get_location_by]').change(function() {
-    console.log("Changed get_location_by.");
-	var get_location_by = $('input:radio[name=get_location_by]:checked').val();
-	console.log(get_location_by);
-	if (get_location_by == 'oci') {
-		console.log("Showing API key field");
-		$("#opencellidwrapper").show();
-	}
-	else {
-		console.log("Hiding API key field");
-		$("#opencellidwrapper").hide();
-	}
-
 });
 
 /**
@@ -261,7 +239,6 @@ $('#save-settings-btn').bind('click', function () {
 	}
 	else if (get_location_by == 'oci') {
 		window.localStorage.setItem("get_location_by", "oci");	
-		window.localStorage.setItem("opencellidkey", $("#opencellid").val());	
 	  // If we currently had a watchPosition setup, then clear it.
 		console.log("Turning off the GPS.");
 		if (positionInterval) {
@@ -562,7 +539,7 @@ function getLocationFromOCI() {
 
 		updateStatus("Getting Location from Cell<br>" + conn.voice.network.mcc + "/" + conn.voice.network.mnc + "/" + conn.voice.cell.gsmCellId);
 
-		var url = "http://www.opencellid.org/cell/get?key=" + localStorage.opencellidkey + "&cellid=" + conn.voice.cell.gsmCellId + "&lac=" + conn.voice.cell.gsmLocationAreaCode + "&mcc=" + conn.voice.network.mcc + "&mnc=" + conn.voice.network.mnc;
+		var url = "http://www.opencellid.org/cell/get?key=" + opencellidkey + "&cellid=" + conn.voice.cell.gsmCellId + "&lac=" + conn.voice.cell.gsmLocationAreaCode + "&mcc=" + conn.voice.network.mcc + "&mnc=" + conn.voice.network.mnc;
 
 		console.log("Fetching location from OpenCellID.org");
 		
