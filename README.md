@@ -34,8 +34,7 @@ You also have the option of having the app asking you for confirmation of each c
 Under "How to Find Device Location?" select either:
 
 * "Use GPS" (which is more accurate, but as the GPS can take time to establish a lock, can be slower)
-* "Use Mozilla Location Services" (which is less accurate, may have poor coverage for your area, but can be much faster than GPS; no signup or key required).
-* "Use OpenCellID.org" (which is less accurate, may have poor coverage for your area -- but likely better coverage than Mozilla Location Services, for now, but can be much faster than GPS; you need a free [OpenCellID.org API key](http://wiki.opencellid.org/wiki/Main_Page) for this service.).
+* "Use Mozilla Location Services"  or "Use OpenCellID.org" (which are less accurate, may have poor coverage for your area, but can be much faster than GPS and have less impact on battery life).
 
 When you return to the main screen, the app will establish your location and you'll be shown a list of nearby Foursquare venues; to checkin, just tap a venue, and optionally confirm your checkin. *That's it*.
 
