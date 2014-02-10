@@ -71,7 +71,6 @@ if ((localStorage.send_to_foursquare) && (typeof localStorage.foursquare_access_
     $('#send_to_foursquare').val("on").slider("refresh");
     
     getMyLocation();
-        
 }
 else {
     window.localStorage.setItem("foursquare_access_token", '');
@@ -459,7 +458,12 @@ function getLocationFromMLS() {
 
     updateStatus("Getting Location from<br>Mozilla Location Services");
 
-    var conn = window.navigator.mozMobileConnection;
+	if ((conn = navigator.mozMobileConnection)) {
+		console.log("Using navigator.mozMobileConnection to get cell ID (old API)");
+	}
+	else if ((conn = navigator.mozMobileConnections)) {
+		var conn = conn[0];
+	}
     
     if (typeof conn != 'undefined') {
         console.log(conn);
@@ -536,8 +540,13 @@ function getLocationFromOCI() {
 
     updateStatus("Getting Location from<br>OpenCellID.org");
 
-    var conn = window.navigator.mozMobileConnection;
-    
+	if ((conn = navigator.mozMobileConnection)) {
+		console.log("Using navigator.mozMobileConnection to get cell ID (old API)");
+	}
+	else if ((conn = navigator.mozMobileConnections)) {
+		var conn = conn[0];
+	}
+	    
     if (typeof conn != 'undefined') {
         console.log(conn);
 
